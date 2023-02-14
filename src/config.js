@@ -6,7 +6,7 @@ export const tmdbAPI = {
   getMovieList: (type, page = 1) =>
     `${tmdbEndPoint}/${type}?api_key=${apiKey}&page=${page}`,
   getMovieSearch: (query, page) =>
-    `${MovieSearch}/?api_key=${apiKey}&query=${query}&page=${page}`,
+    `${MovieSearch}?api_key=${apiKey}&query=${query}&page=${page}`,
   getMovieDetail: (movieId) => `${tmdbEndPoint}/${movieId}?api_key=${apiKey}`,
   getMovieMeta: (movieId, type) =>
     `${tmdbEndPoint}/${movieId}/${type}?api_key=${apiKey}`,
