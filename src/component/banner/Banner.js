@@ -4,12 +4,14 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { apiKey, fetcher } from "../../config";
 import Button from "../Button/Button";
 import { Navigate, useNavigate } from "react-router-dom";
+import LoadingSkeleton from "../loading/LoadingSkeleton";
 
 const Banner = () => {
-  const { data } = useSWR(
+  const { data, error } = useSWR(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`,
     fetcher
   );
+  const isLoading = !data && !error;
   const movies = data?.results || [];
 
   return (
@@ -18,7 +20,8 @@ const Banner = () => {
         {movies.length > 0 &&
           movies.map((item) => (
             <SwiperSlide key={item.id}>
-              <BannerItems item={item}></BannerItems>
+              {isLoading && <BannerItemsSkeleton></BannerItemsSkeleton>}
+              {!isLoading && <BannerItems item={item}></BannerItems>}
             </SwiperSlide>
           ))}
       </Swiper>
@@ -31,7 +34,7 @@ function BannerItems({ item }) {
   const navigate = useNavigate();
   return (
     <div className="relative w-full h-full rounded-lg">
-      <div className="absolute inset-0 bg-opacity-25 rounded-lg overlay bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0.6)]"></div>
+      <div className="absolute inset-0 bg-opacity-25 rounded-lg overlay bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0.6)] "></div>
       <img
         alt=""
         src={`https://image.tmdb.org/t/p/w500${poster_path}`}
@@ -40,7 +43,7 @@ function BannerItems({ item }) {
       <div className="absolute w-full text-white left-5 bottom-5">
         <h2 className="mb-5 text-3xl font-bold">{title}</h2>
         <div className="flex items-center mb-8 gap-x-3">
-          <span className="px-4 py-2 border border-white rounded-md">
+          <span className="px-4 py-2 border border-white rounded-md ">
             Action
           </span>
           <span className="px-4 py-2 border border-white rounded-md">
@@ -56,4 +59,33 @@ function BannerItems({ item }) {
   );
 }
 
+function BannerItemsSkeleton() {
+  return (
+    <div className="relative w-full h-full">
+      <div className="absolute inset-0 bg-opacity-25 rounded-lg overlay bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-[rgba(0,0,0,0.6)] "></div>
+      <LoadingSkeleton className="w-full h-full rounded-lg"></LoadingSkeleton>
+      <div className="absolute w-full text-white left-5 bottom-5">
+        <h2 className="mb-5 text-3xl font-bold">
+          <LoadingSkeleton width="200px" height="30px"></LoadingSkeleton>
+        </h2>
+        <div className="flex items-center mb-8 gap-x-3">
+          <span className="px-4 py-2 border border-white rounded-md bg-[#eee]">
+            <LoadingSkeleton className="px-4 py-2 rounded-md "></LoadingSkeleton>
+          </span>
+          <span className="px-4 py-2 border border-white rounded-md bg-[#eee]">
+            <LoadingSkeleton className="px-4 py-2 rounded-md "></LoadingSkeleton>
+          </span>
+          <span className="px-4 py-2 border border-white rounded-md bg-[#eee]">
+            <LoadingSkeleton className="px-4 py-2 rounded-md "></LoadingSkeleton>
+          </span>
+        </div>
+        <LoadingSkeleton
+          className="rounded-lg inline-block"
+          width="250px"
+          height="50px"
+        ></LoadingSkeleton>
+      </div>
+    </div>
+  );
+}
 export default Banner;

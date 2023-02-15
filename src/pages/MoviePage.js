@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import { apiKey, fetcher, tmdbAPI } from "../config";
-import MovieCard from "../component/movie/MovieCard";
+import { fetcher, tmdbAPI } from "../config";
+import MovieCard, { MovieCardSekeleton } from "../component/movie/MovieCard";
 import useDebounce from "../hooks/useDebounce";
 import ReactPaginate from "react-paginate";
+import { v4 } from "uuid";
 
 const itemsPerPage = 20;
 const MoviePage = (type = "") => {
@@ -67,8 +68,32 @@ const MoviePage = (type = "") => {
           </svg>
         </button>
       </div>
-      {loading && (
+      {/* {loading && (
         <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent mx-auto animate-spin"></div>
+      )} */}
+      {loading && (
+        <div className="grid grid-cols-4 gap-10 mb-10">
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+          <MovieCardSekeleton></MovieCardSekeleton>
+        </div>
       )}
       <div className="grid grid-cols-4 gap-10 mb-10">
         {!loading &&
